@@ -26,7 +26,7 @@ export default function Board() {
     const nextSquares = squares.slice() as SquaresType;
     nextSquares[i] = player;
     setSquares(nextSquares);
-    setXIsNext(!xIsNext);
+    setXIsNext();
   };
 
   return (

@@ -1,27 +1,31 @@
 // create a new zustand store:
-import { create } from "zustand";
+import {
+  create,
+  ExtractState,
+} from "zustand";
+import { combine } from "zustand/middleware";
 
 import { SquaresType } from "../types";
 
-type StateProps = {
-  squares: SquaresType;
-  xIsNext: boolean;
-};
-type StateActions = {
-  setXIsNext: (xIsNext: StateProps["xIsNext"]) => void;
-  setSquares: (squares: StateProps["squares"]) => void;
-};
+// Instead of explicitly defining the store structure for typescript,
+// we can use the ExtractState function to extract it for us.
+// We use this with combine() below, which infers the state for us
+export type State = ExtractState<typeof useGameStore>;
 
-export type State = StateProps & StateActions;
-
-export const useGameStore = create<State>((set) => ({
-  squares: Array(9).fill(null) as SquaresType,
-  xIsNext: true,
-  // set is the way to change the specific part of state only
-  setSquares: (nextSquares: SquaresType) => set({ squares: nextSquares }),
-  setXIsNext: () => {
-    set((state: State) => ({
-      xIsNext: !state.xIsNext,
-    }));
-  },
-}));
+export const useGameStore = create(
+  combine(
+    {
+      squares: Array(9).fill(null) as SquaresType,
+      xIsNext: true,
+    },
+    (set) => ({
+      // set is the way to change the specific part of state only
+      setSquares: (nextSquares: SquaresType) => set({ squares: nextSquares }),
+      setXIsNext: () => {
+        set((state: State) => ({
+          xIsNext: !state.xIsNext,
+        }));
+      },
+    })
+  )
+);
