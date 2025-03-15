@@ -25,15 +25,3 @@ export const useGameStore = create<State>((set) => ({
     }));
   },
 }));
-
-
-
-// create the store object:
-const storeObj = {
-  bears: 0,
-  // pretend there is other stuff here!
-}
-
-// create the store actions:
-const increasePopulation = (state) => {...state, bears: state.bears + 1};
-const removeAllBears = () => {...state, bears: 0}
