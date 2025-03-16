@@ -21,7 +21,7 @@ export const useGameStore = create(
     (set) => ({
       // set is the way to change the specific part of state only
       setSquares: (nextSquares: SquaresType) => set({ squares: nextSquares }),
-      setXIsNext: () => {
+      toggleXIsNext: () => {
         set((state: State) => ({
           xIsNext: !state.xIsNext,
         }));

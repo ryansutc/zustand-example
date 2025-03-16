@@ -12,7 +12,7 @@ import { SquaresType } from "./types";
 
 export default function Board() {
   const xIsNext = useGameStore((state: State) => state.xIsNext);
-  const setXIsNext = useGameStore((state: State) => state.setXIsNext);
+  const toggleXIsNext = useGameStore((state: State) => state.toggleXIsNext);
   const squares = useGameStore((state: State) => state.squares);
   const setSquares = useGameStore((state: State) => state.setSquares);
 
@@ -26,7 +26,7 @@ export default function Board() {
     const nextSquares = squares.slice() as SquaresType;
     nextSquares[i] = player;
     setSquares(nextSquares);
-    setXIsNext();
+    toggleXIsNext();
   };
 
   return (
