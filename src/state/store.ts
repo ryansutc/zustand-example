@@ -3,7 +3,10 @@ import {
   create,
   ExtractState,
 } from "zustand";
-import { combine } from "zustand/middleware";
+import {
+  combine,
+  devtools,
+} from "zustand/middleware";
 
 import { SquaresType } from "../types";
 
@@ -13,19 +16,26 @@ import { SquaresType } from "../types";
 export type State = ExtractState<typeof useGameStore>;
 
 export const useGameStore = create(
-  combine(
-    {
-      squares: Array(9).fill(null) as SquaresType,
-      xIsNext: true,
-    },
-    (set) => ({
-      // set is the way to change the specific part of state only
-      setSquares: (nextSquares: SquaresType) => set({ squares: nextSquares }),
-      toggleXIsNext: () => {
-        set((state: State) => ({
-          xIsNext: !state.xIsNext,
-        }));
+  devtools(
+    combine(
+      {
+        squares: Array(9).fill(null) as SquaresType,
+        xIsNext: true,
       },
-    })
+      (set) => ({
+        // set is the way to change the specific part of state only
+        setSquares: (nextSquares: SquaresType) =>
+          set({ squares: nextSquares }, undefined, "game/setSquares"),
+        toggleXIsNext: () => {
+          set(
+            (state: State) => ({
+              xIsNext: !state.xIsNext,
+            }),
+            undefined,
+            "game/toggleXIsNext"
+          );
+        },
+      })
+    )
   )
 );
